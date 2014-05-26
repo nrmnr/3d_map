@@ -46,6 +46,8 @@ function(){
     var height = 768;
     var camera = make_camera(width, height);
     camera.position.set(0, 0, 300);
+    var controls = new THREE.TrackballControls(camera);
+    controls.noPan = false;
     var renderer = make_renderer(width, height);
     var scene = new THREE.Scene();
     scene.add(make_light());
@@ -55,12 +57,13 @@ function(){
 
     (function renderLoop() {
       requestAnimationFrame(renderLoop);
-      mesh.rotation.set(
-        -rad(60),
-        0,
-        mesh.rotation.z + .01
-      );
+      // mesh.rotation.set(
+      //   -rad(60),
+      //   0,
+      //   mesh.rotation.z + .01
+      // );
       renderer.render(scene, camera);
+      controls.update();
     })();
   };
 
