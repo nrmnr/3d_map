@@ -27,6 +27,10 @@ function(){
     return light;
   };
 
+  var make_ambientlight = function(){
+    return new THREE.AmbientLight(0x303030);
+  };
+
   var make_hemilight = function(){
     var light = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
     light.color.setHSL(0.6, 1, 0.6);
@@ -51,6 +55,7 @@ function(){
     var renderer = make_renderer(width, height);
     var scene = new THREE.Scene();
     scene.add(make_light());
+    scene.add(make_ambientlight());
     scene.add(make_hemilight());
     var mesh = make_mesh();
     scene.add(mesh);
