@@ -12,7 +12,7 @@ function(){
     var near   = 1;              // これより近くは非表示
     var far    = 20000;          // これより遠くは非表示
     var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 0, 10);
+    camera.position.set(0, 10, 0);
     return camera;
   };
 
@@ -43,7 +43,7 @@ function(){
   };
 
   var make_mesh = function(){
-    var geometry = new THREE.BoxGeometry(100, 50, 10);
+    var geometry = new THREE.BoxGeometry(100, 10, 50);
     var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
     return new THREE.Mesh(geometry, material);
   };
@@ -51,10 +51,8 @@ function(){
   var make_controls = function(camera){
     var controls = new THREE.FirstPersonControls(camera);
     controls.movementSpeed = 100;
-    controls.lookSpeed = 0.05;
-    controls.lon = -90;
-    controls.lat = 60;
-    controls.activeLook = true;
+    controls.lookSpeed = 0.1;
+    //controls.activeLook = false;
     return controls;
   };
 
