@@ -7,11 +7,13 @@ function(){
   };
 
   var make_camera = function(width, height){
-    var fov    = 45;             // 画角
+    var fov    = 60;             // 画角
     var aspect = width / height;
-    var near   = 0.1;              // これより近くは非表示
-    var far    = 1000;           // これより遠くは非表示
-    return new THREE.PerspectiveCamera(fov, aspect, near, far);
+    var near   = 1;              // これより近くは非表示
+    var far    = 20000;          // これより遠くは非表示
+    var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 0, 10);
+    return camera;
   };
 
   var make_renderer = function(width, height){
@@ -24,7 +26,7 @@ function(){
 
   var make_light = function(){
     var light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(0, 0.0, 0.7);
+    light.position.set(0, 0.7, 0.7);
     return light;
   };
 
@@ -41,20 +43,24 @@ function(){
   };
 
   var make_mesh = function(){
-    var geometry = new THREE.BoxGeometry(50, 50, 10);
+    var geometry = new THREE.BoxGeometry(100, 50, 10);
     var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
     return new THREE.Mesh(geometry, material);
+  };
+
+  var make_controls = function(camera){
+    var controls = new THREE.FirstPersonControls(camera);
+    controls.movementSpeed = 100;
+    controls.lookSpeed = 0.05;
+    controls.lon = -90;
+    controls.lat = 60;
+    controls.activeLook = true;
+    return controls;
   };
 
   var main = function(){
     var width  = 1024;
     var height = 768;
-    var camera = make_camera(width, height);
-    camera.position.set(0, -60, 60);
-    camera.updateProjectionMatrix();
-    var controls = new THREE.TrackballControls(camera);
-    controls.noPan = false;
-    var renderer = make_renderer(width, height);
     var scene = new THREE.Scene();
     scene.add(make_light());
     scene.add(make_ambientlight());
@@ -62,15 +68,15 @@ function(){
     var mesh = make_mesh();
     scene.add(mesh);
 
+    var camera = make_camera(width, height);
+    var controls = make_controls(camera);
+    var renderer = make_renderer(width, height);
+
+    var clock = new THREE.Clock();
     (function renderLoop() {
       requestAnimationFrame(renderLoop);
-      // mesh.rotation.set(
-      //   -rad(60),
-      //   0,
-      //   mesh.rotation.z + .01
-      // );
       renderer.render(scene, camera);
-      controls.update();
+      controls.update(clock.getDelta());
     })();
   };
 
