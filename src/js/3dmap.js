@@ -17,7 +17,8 @@ function(){
   var make_renderer = function(width, height){
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
-    $("body").append($(renderer.domElement));
+    renderer.setClearColorHex(0xc0e0ff);
+    $("#mapfield").append(renderer.domElement);
     return renderer;
   };
 
@@ -28,7 +29,7 @@ function(){
   };
 
   var make_ambientlight = function(){
-    return new THREE.AmbientLight(0x303030);
+    return new THREE.AmbientLight(0x909090);
   };
 
   var make_hemilight = function(){
@@ -50,13 +51,14 @@ function(){
     var height = 768;
     var camera = make_camera(width, height);
     camera.position.set(0, -60, 60);
+    camera.updateProjectionMatrix();
     var controls = new THREE.TrackballControls(camera);
     controls.noPan = false;
     var renderer = make_renderer(width, height);
     var scene = new THREE.Scene();
     scene.add(make_light());
     scene.add(make_ambientlight());
-    scene.add(make_hemilight());
+    //scene.add(make_hemilight());
     var mesh = make_mesh();
     scene.add(mesh);
 
