@@ -7,9 +7,9 @@ function(){
   };
 
   var make_camera = function(width, height){
-    var fov    = 60;             // 画角
+    var fov    = 45;             // 画角
     var aspect = width / height;
-    var near   = 1;              // これより近くは非表示
+    var near   = 0.1;              // これより近くは非表示
     var far    = 1000;           // これより遠くは非表示
     return new THREE.PerspectiveCamera(fov, aspect, near, far);
   };
@@ -40,7 +40,7 @@ function(){
   };
 
   var make_mesh = function(){
-    var geometry = new THREE.BoxGeometry(300, 300, 30);
+    var geometry = new THREE.BoxGeometry(50, 50, 10);
     var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
     return new THREE.Mesh(geometry, material);
   };
@@ -49,7 +49,7 @@ function(){
     var width  = 1024;
     var height = 768;
     var camera = make_camera(width, height);
-    camera.position.set(0, 0, 300);
+    camera.position.set(0, -60, 60);
     var controls = new THREE.TrackballControls(camera);
     controls.noPan = false;
     var renderer = make_renderer(width, height);
