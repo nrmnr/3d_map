@@ -17,7 +17,7 @@ function(){
   var make_renderer = function(width, height){
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
-    renderer.setClearColorHex(0xc0e0ff);
+    renderer.setClearColor(0xc0e0ff);
     $("#mapfield").append(renderer.domElement);
     return renderer;
   };
