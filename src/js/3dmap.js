@@ -1,18 +1,13 @@
 // 3D Map メイン
 $(
 function(){
-  var PI = 3.1415926;
-  var rad = function(deg){
-    return deg * PI / 180;
-  };
-
   var make_camera = function(width, height){
     var fov    = 60;             // 画角
     var aspect = width / height;
     var near   = 1;              // これより近くは非表示
     var far    = 20000;          // これより遠くは非表示
     var camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    camera.position.set(0, 10, 0);
+    camera.position.set(-50, 20, 0);
     return camera;
   };
 
@@ -42,17 +37,45 @@ function(){
     return light;
   };
 
+  var load_map = function(){
+    var csv = $.ajax({
+        type: "GET",
+        url: "map/dem.csv",
+        async: false,
+      }).responseText;
+    var geometry = new THREE.PlaneGeometry(96,96,191,191);
+    var count = 0;
+    $(csv.split("\n")).each(
+      function(){
+        var line = this;
+        if (line == "") return;
+        $(line.split(",")).each(
+          function(){
+            var value = this;
+            var y = (value == "e")? 0 : Number(value);
+            geometry.vertices[count++].z = y;
+          });
+      });
+    var material = new THREE.MeshPhongMaterial({
+      map: THREE.ImageUtils.loadTexture("map/texture.png")
+    });
+    var mesh = new THREE.Mesh(geometry, material);
+    var matrix = new THREE.Matrix4();
+    mesh.applyMatrix(matrix.makeRotationX(-Math.PI/2));
+    mesh.applyMatrix(matrix.makeRotationY(-Math.PI/2));
+    return mesh;
+  };
+
   var make_mesh = function(){
-    var geometry = new THREE.BoxGeometry(100, 10, 50);
-    var material = new THREE.MeshPhongMaterial({ color: 0xffffff });
-    return new THREE.Mesh(geometry, material);
+    return load_map();
   };
 
   var make_controls = function(camera){
     var controls = new THREE.FirstPersonControls(camera);
-    controls.movementSpeed = 100;
+    controls.movementSpeed = 20;
     controls.lookSpeed = 0.1;
     //controls.activeLook = false;
+    controls.lat = -30;
     return controls;
   };
 
