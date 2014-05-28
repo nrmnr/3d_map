@@ -80,9 +80,9 @@ function(){
   };
 
   var make_mesh = function(){
+  var make_mesh = function(scene){
     var map_data = load_map("dem.csv");
-    var map_mesh = make_map(map_data, "texture.png");
-    return map_mesh;
+    scene.add(make_map(map_data, "texture.png"));
   };
 
   var make_controls = function(camera){
@@ -101,8 +101,7 @@ function(){
     scene.add(make_light());
     scene.add(make_ambientlight());
     //scene.add(make_hemilight());
-    var mesh = make_mesh();
-    scene.add(mesh);
+    make_mesh(scene);
 
     var camera = make_camera(width, height);
     var controls = make_controls(camera);
