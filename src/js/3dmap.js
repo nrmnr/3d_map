@@ -20,8 +20,8 @@ function(){
   };
 
   var make_light = function(){
-    var light = new THREE.DirectionalLight(0xffffff);
-    light.position.set(0, 0.7, 0.7);
+    var light = new THREE.DirectionalLight(0xffffff, 0.7);
+    light.position.set(0.7, 0.5, 0);
     return light;
   };
 
