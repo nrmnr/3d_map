@@ -52,8 +52,8 @@ function(){
         $(line.split(",")).each(
           function(){
             var value = this;
-            var y = (value == "e")? 0 : Number(value);
-            geometry.vertices[count++].z = y;
+            var h = (value == "e")? 0 : Number(value);
+            geometry.vertices[count++].z = h;
           });
       });
     var material = new THREE.MeshPhongMaterial({
