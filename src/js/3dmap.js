@@ -41,7 +41,7 @@ function(){
     var csv = $.ajax({
         type: "GET",
         url: "map/dem.csv",
-        async: false,
+        async: false
       }).responseText;
     var geometry = new THREE.PlaneGeometry(96,96,191,191);
     var count = 0;
