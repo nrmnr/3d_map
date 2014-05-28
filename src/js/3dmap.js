@@ -37,6 +37,13 @@ function(){
     return light;
   };
 
+  var initial_rotate = function(mesh){
+    var matrix = new THREE.Matrix4();
+    mesh.applyMatrix(matrix.makeRotationX(-Math.PI/2));
+    mesh.applyMatrix(matrix.makeRotationY(-Math.PI/2));
+    return mesh;
+  };
+
   var load_map = function(){
     var csv = $.ajax({
         type: "GET",
@@ -60,10 +67,7 @@ function(){
       map: THREE.ImageUtils.loadTexture("map/texture.png")
     });
     var mesh = new THREE.Mesh(geometry, material);
-    var matrix = new THREE.Matrix4();
-    mesh.applyMatrix(matrix.makeRotationX(-Math.PI/2));
-    mesh.applyMatrix(matrix.makeRotationY(-Math.PI/2));
-    return mesh;
+    return initial_rotate(mesh);
   };
 
   var make_mesh = function(){
