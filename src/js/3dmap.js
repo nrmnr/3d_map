@@ -65,8 +65,10 @@ function(){
     return data;
   };
 
+  var x1 = 96, x2 = 192, y1 = 96, y2 = 192;
+
   var make_map = function(data, texture){
-    var geometry = new THREE.PlaneGeometry(96,96,191,191);
+    var geometry = new THREE.PlaneGeometry(x1, y1, x2-1, y2-1);
     for (var i = 0; i < data.length; ++i){
       geometry.vertices[i].z = data[i];
     }
