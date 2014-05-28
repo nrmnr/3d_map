@@ -44,14 +44,13 @@ function(){
     return mesh;
   };
 
-  var load_map = function(){
+  var load_map = function(csvfile){
     var csv = $.ajax({
         type: "GET",
-        url: "map/dem.csv",
+        url: "map/" + csvfile,
         async: false
       }).responseText;
-    var geometry = new THREE.PlaneGeometry(96,96,191,191);
-    var count = 0;
+    var data = [];
     $(csv.split("\n")).each(
       function(){
         var line = this;
@@ -60,18 +59,28 @@ function(){
           function(){
             var value = this;
             var h = (value == "e")? 0 : Number(value);
-            geometry.vertices[count++].z = h;
+            data.push(h);
           });
       });
+    return data;
+  };
+
+  var make_map = function(data, texture){
+    var geometry = new THREE.PlaneGeometry(96,96,191,191);
+    for (var i = 0; i < data.length; ++i){
+      geometry.vertices[i].z = data[i];
+    }
     var material = new THREE.MeshPhongMaterial({
-      map: THREE.ImageUtils.loadTexture("map/texture.png")
+      map: THREE.ImageUtils.loadTexture("map/" + texture)
     });
     var mesh = new THREE.Mesh(geometry, material);
     return initial_rotate(mesh);
   };
 
   var make_mesh = function(){
-    return load_map();
+    var map_data = load_map("dem.csv");
+    var map_mesh = make_map(map_data, "texture.png");
+    return map_mesh;
   };
 
   var make_controls = function(camera){
