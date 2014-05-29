@@ -159,7 +159,7 @@ function(){
 
   var make_controls = function(camera){
     var controls = new THREE.FirstPersonControls(camera);
-    controls.movementSpeed = 20;
+    controls.movementSpeed = 10;
     controls.lookSpeed = 0.1;
     //controls.activeLook = false;
     controls.lat = -30;
