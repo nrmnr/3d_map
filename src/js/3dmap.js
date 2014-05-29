@@ -82,7 +82,7 @@ function(){
   };
 
   // オブジェクト 側面手前
-  var make_side1 = function(data){
+  var make_side_front = function(data){
     var geometry = new THREE.PlaneGeometry(x1, 1, x2-1, 1);
     for(var i = 0; i < geometry.vertices.length; ++i){
       geometry.vertices[i].z = (i < x2)? data[(y2-1)*x2+i] : 0;
@@ -93,8 +93,21 @@ function(){
     return initial_rotate(mesh);
   };
 
+  // オブジェクト 側面奥
+  var make_side_back = function(data){
+    var geometry = new THREE.PlaneGeometry(x1, 1, x2-1, 1);
+    for(var i = 0; i < geometry.vertices.length; ++i){
+      geometry.vertices[i].z = (i < x2)? data[x2-1-i] : 0;
+      geometry.vertices[i].x = x1/2-x1/(x2-1)*(i%x2);
+      geometry.vertices[i].y = y1/2;
+    }
+    var material = new THREE.MeshBasicMaterial({color: 0xb97a57});
+    var mesh = new THREE.Mesh(geometry, material);
+    return initial_rotate(mesh);
+  };
+
   // オブジェクト 側面左
-  var make_side2 = function(data){
+  var make_side_left = function(data){
     var geometry = new THREE.PlaneGeometry(y1, 1, y2-1, 1);
     for(var i = 0; i < geometry.vertices.length; ++i){
       geometry.vertices[i].z = (i < y2)? data[i*x2] : 0;
@@ -107,7 +120,7 @@ function(){
   };
 
   // オブジェクト 側面右
-  var make_side3 = function(data){
+  var make_side_right = function(data){
     var geometry = new THREE.PlaneGeometry(y1, 1, y2-1, 1);
     for(var i = 0; i < geometry.vertices.length; ++i){
       geometry.vertices[i].z = (i < y2)? data[x2*(y2-1-i)+(x2-1)] : 0;
@@ -119,21 +132,8 @@ function(){
     return initial_rotate(mesh);
   };
 
-  // オブジェクト 側面奥
-  var make_side4 = function(data){
-    var geometry = new THREE.PlaneGeometry(x1, 1, x2-1, 1);
-    for(var i = 0; i < geometry.vertices.length; ++i){
-      geometry.vertices[i].z = (i < x2)? data[x2-1-i] : 0;
-      geometry.vertices[i].x = x1/2-x1/(x2-1)*(i%x2);
-      geometry.vertices[i].y = y1/2;
-    }
-    var material = new THREE.MeshBasicMaterial({color: 0xb97a57});
-    var mesh = new THREE.Mesh(geometry, material);
-    return initial_rotate(mesh);
-  };
-
   // オブジェクト 底面
-  var make_base = function(){
+  var make_side_base = function(){
     var geometry = new THREE.PlaneGeometry(x1, y1, 1, 1);
     for(var i = 0; i < geometry.vertices.length; ++i){
       geometry.vertices[i].z = 0;
@@ -150,11 +150,11 @@ function(){
   var make_mesh = function(scene){
     var map_data = load_map("dem.csv");
     scene.add(make_map(map_data, "texture.png"));
-    scene.add(make_side1(map_data));
-    scene.add(make_side2(map_data));
-    scene.add(make_side3(map_data));
-    scene.add(make_side4(map_data));
-    scene.add(make_base());
+    scene.add(make_side_front(map_data));
+    scene.add(make_side_back(map_data));
+    scene.add(make_side_left(map_data));
+    scene.add(make_side_right(map_data));
+    scene.add(make_side_base());
   };
 
   var make_controls = function(camera){
