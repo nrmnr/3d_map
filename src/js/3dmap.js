@@ -65,7 +65,8 @@ function(){
     return data;
   };
 
-  var x1 = 96, x2 = 192, y1 = 96, y2 = 192;
+  var x1 = 96, x2 = 192;
+  var y1 = 96, y2 = 192;
 
   // オブジェクト 地図
   var make_map = function(data, texture){
